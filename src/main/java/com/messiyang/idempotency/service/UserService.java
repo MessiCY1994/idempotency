@@ -1,10 +1,13 @@
 package com.messiyang.idempotency.service;
 
-import com.wangzaiplus.test.common.ServerResponse;
-import com.wangzaiplus.test.pojo.User;
+
+import com.messiyang.idempotency.common.ServerResponse;
+import com.messiyang.idempotency.pojo.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface UserService {
 
     List<User> getAll();

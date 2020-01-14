@@ -1,9 +1,11 @@
 package com.messiyang.idempotency.mapper;
 
-import com.wangzaiplus.test.pojo.MsgLog;
 
+
+import com.messiyang.idempotency.pojo.MsgLog;
+import org.springframework.stereotype.Repository;
 import java.util.List;
-
+@Repository
 public interface MsgLogMapper {
 
     void insert(MsgLog msgLog);

@@ -1,6 +1,8 @@
 package com.messiyang.idempotency.mapper;
 
-import com.wangzaiplus.test.pojo.User;
+
+
+import com.messiyang.idempotency.pojo.User;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 

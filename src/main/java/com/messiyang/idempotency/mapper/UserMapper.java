@@ -1,10 +1,14 @@
 package com.messiyang.idempotency.mapper;
 
-import com.wangzaiplus.test.pojo.User;
+
+
+import com.messiyang.idempotency.pojo.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
 
 import java.util.List;
-
+@Repository
 public interface UserMapper {
 
     List<User> selectAll();
