@@ -37,9 +37,11 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public void checkToken(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_NAME);
-        if (StringUtils.isBlank(token)) {// header中不存在token
+        // header中不存在token
+        if (StringUtils.isBlank(token)) {
             token = request.getParameter(TOKEN_NAME);
-            if (StringUtils.isBlank(token)) {// parameter中也不存在token
+            // parameter中也不存在token
+            if (StringUtils.isBlank(token)) {
                 throw new ServiceException(ResponseCode.ILLEGAL_ARGUMENT.getMsg());
             }
         }

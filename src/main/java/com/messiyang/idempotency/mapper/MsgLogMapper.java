@@ -1,7 +1,5 @@
 package com.messiyang.idempotency.mapper;
 
-
-
 import com.messiyang.idempotency.pojo.MsgLog;
 import org.springframework.stereotype.Repository;
 import java.util.List;
