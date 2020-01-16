@@ -12,4 +12,6 @@ public interface TokenService {
 
     void checkToken(HttpServletRequest request);
 
+    void checkAccessLimit(String key,int maxCount,int seconds);
+
 }

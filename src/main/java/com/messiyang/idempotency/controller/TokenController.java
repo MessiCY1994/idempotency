@@ -15,7 +15,7 @@ public class TokenController {
     @Autowired
     private TokenService tokenService;
 
-    @GetMapping
+    @GetMapping("/create")
     public ServerResponse token() {
         return tokenService.createToken();
     }

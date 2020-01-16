@@ -50,7 +50,7 @@ public class JedisConfig {
         jedisPoolConfig.setTimeBetweenEvictionRunsMillis(1000);
         jedisPoolConfig.setNumTestsPerEvictionRun(100);
 
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
 
         return jedisPool;
     }

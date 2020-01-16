@@ -60,4 +60,25 @@ public class TokenServiceImpl implements TokenService {
         }
     }
 
+    @Override
+    public void checkAccessLimit(String key,int maxCount,int seconds) {
+        //判断是否存在这个key，如果不存在表示第一次进入，访问次数加1，否则进入下一步的业务流程
+        Boolean exists = jedisUtil.exists(key);
+        if (!exists) {
+            jedisUtil.set(key, String.valueOf(1), seconds);
+        } else {
+            int count = Integer.valueOf(jedisUtil.get(key));
+            if (count < maxCount) {
+                Long ttl = jedisUtil.ttl(key);
+                if (ttl <= 0) {
+                    jedisUtil.set(key, String.valueOf(1), seconds);
+                } else {
+                    jedisUtil.set(key, String.valueOf(++count), ttl.intValue());
+                }
+            } else {
+                throw new ServiceException(ResponseCode.ACCESS_LIMIT.getMsg());
+            }
+        }
+    }
+
 }

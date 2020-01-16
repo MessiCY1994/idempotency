@@ -5,6 +5,7 @@ import com.messiyang.idempotency.annotation.AccessLimit;
 import com.messiyang.idempotency.common.Constant;
 import com.messiyang.idempotency.common.ResponseCode;
 import com.messiyang.idempotency.exception.ServiceException;
+import com.messiyang.idempotency.service.TokenService;
 import com.messiyang.idempotency.util.IpUtil;
 import com.messiyang.idempotency.util.JedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,7 @@ import java.lang.reflect.Method;
 public class AccessLimitInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private JedisUtil jedisUtil;
-
+    private TokenService tokenService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
@@ -49,24 +49,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
         StringBuilder sb = new StringBuilder();
         sb.append(Constant.Redis.ACCESS_LIMIT_PREFIX).append(IpUtil.getIpAddress(request)).append(request.getRequestURI());
         String key = sb.toString();
-
-        //判断是否存在这个key，如果不存在表示第一次进入，访问次数加1，否则进入下一步的业务流程
-        Boolean exists = jedisUtil.exists(key);
-        if (!exists) {
-            jedisUtil.set(key, String.valueOf(1), seconds);
-        } else {
-            int count = Integer.valueOf(jedisUtil.get(key));
-            if (count < maxCount) {
-                Long ttl = jedisUtil.ttl(key);
-                if (ttl <= 0) {
-                    jedisUtil.set(key, String.valueOf(1), seconds);
-                } else {
-                    jedisUtil.set(key, String.valueOf(++count), ttl.intValue());
-                }
-            } else {
-                throw new ServiceException(ResponseCode.ACCESS_LIMIT.getMsg());
-            }
-        }
+        tokenService.checkAccessLimit(key,maxCount,seconds);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class TestController {
         return testService.testIdempotence();
     }
 
-    @AccessLimit(maxCount = 5, seconds = 5)
+    @AccessLimit(maxCount = 1, seconds = 5)
     @PostMapping("accessLimit")
     public ServerResponse accessLimit() {
         return testService.accessLimit();

@@ -18,9 +18,9 @@ import java.lang.reflect.Method;
  */
 public class ApiIdempotentInterceptor implements HandlerInterceptor{
 
+
     @Autowired
     private TokenService tokenService;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
