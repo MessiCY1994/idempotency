@@ -34,6 +34,10 @@ public class TokenServiceImpl implements TokenService {
         return ServerResponse.success(token.toString());
     }
 
+    /**
+     * 幂等性判断
+     * @param request
+     */
     @Override
     public void checkToken(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_NAME);

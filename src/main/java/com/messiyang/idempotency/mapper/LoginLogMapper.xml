@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wangzaiplus.test.mapper.LoginLogMapper" >
-    <resultMap id="BaseResultMap" type="com.wangzaiplus.test.pojo.LoginLog" >
+<mapper namespace="com.messiyang.idempotency.mapper.LoginLogMapper" >
+    <resultMap id="BaseResultMap" type="com.messiyang.idempotency.pojo.LoginLog" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="user_id" property="userId" jdbcType="INTEGER" />
         <result column="type" property="type" jdbcType="INTEGER" />
@@ -14,7 +14,7 @@
         id, user_id, type, description, create_time, update_time
     </sql>
 
-    <insert id="insert" parameterType="com.wangzaiplus.test.pojo.LoginLog">
+    <insert id="insert" parameterType="com.messiyang.idempotency.pojo.LoginLog">
         INSERT INTO login_log(user_id, type, description, create_time, update_time)
         VALUES (#{userId}, #{type}, #{description}, #{createTime}, #{updateTime})
     </insert>

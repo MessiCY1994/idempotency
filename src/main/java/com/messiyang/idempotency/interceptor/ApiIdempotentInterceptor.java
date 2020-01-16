@@ -2,6 +2,8 @@ package com.messiyang.idempotency.interceptor;
 
 
 import com.messiyang.idempotency.annotation.ApiIdempotent;
+import com.messiyang.idempotency.service.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +17,9 @@ import java.lang.reflect.Method;
  * @author messi
  */
 public class ApiIdempotentInterceptor implements HandlerInterceptor{
+
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -35,7 +40,7 @@ public class ApiIdempotentInterceptor implements HandlerInterceptor{
     }
 
     private void check(HttpServletRequest request) {
-
+        tokenService.checkToken(request);
     }
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {

@@ -8,7 +8,11 @@ import lombok.*;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class MsgLog {
 
     private String msgId;

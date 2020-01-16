@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wangzaiplus.test.mapper.MsgLogMapper" >
-    <resultMap id="BaseResultMap" type="com.wangzaiplus.test.pojo.MsgLog" >
+<mapper namespace="com.messiyang.idempotency.mapper.MsgLogMapper" >
+    <resultMap id="BaseResultMap" type="com.messiyang.idempotency.pojo.MsgLog" >
         <id column="msg_id" property="msgId" jdbcType="VARCHAR" />
         <result column="msg" property="msg" jdbcType="VARCHAR" />
         <result column="exchange" property="exchange" jdbcType="VARCHAR" />
@@ -17,12 +17,12 @@
         msg_id, msg, exchange, routing_key, status, try_count, next_try_time, create_time, update_time
     </sql>
 
-    <insert id="insert" parameterType="com.wangzaiplus.test.pojo.MsgLog">
+    <insert id="insert" parameterType="com.messiyang.idempotency.pojo.MsgLog">
         INSERT INTO msg_log(msg_id, msg, exchange, routing_key, status, try_count, next_try_time, create_time, update_time)
         VALUES (#{msgId}, #{msg}, #{exchange}, #{routingKey}, #{status}, #{tryCount}, #{nextTryTime}, #{createTime}, #{updateTime})
     </insert>
 
-    <update id="updateStatus" parameterType="com.wangzaiplus.test.pojo.MsgLog">
+    <update id="updateStatus" parameterType="com.messiyang.idempotency.pojo.MsgLog">
         update msg_log set status = #{status}, update_time = now()
         where msg_id = #{msgId}
     </update>

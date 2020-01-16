@@ -10,12 +10,31 @@ public class LoginLog implements Serializable {
 
     private static final long serialVersionUID = 9035584359424322830L;
 
+    /** ID **/
     private Integer id;
+    /**
+     * userId
+     */
     private Integer userId;
+    /**
+     * 日志类型:1登录 2登出
+     */
     private Integer type;
+    /**
+     * 日志描述
+     */
     private String description;
+    /**
+     * 创建时间
+     */
     private Date createTime;
+    /**
+     * 更新时间
+     */
     private Date updateTime;
-    private String msgId;// 消息id
+    /**
+     * 消息id
+     */
+    private String msgId;
 
 }
