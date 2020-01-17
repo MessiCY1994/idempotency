@@ -32,6 +32,10 @@ public class BaseConsumerProxy {
         Class[] interfaces = target.getClass().getInterfaces();
 
         Object proxy = Proxy.newProxyInstance(classLoader, interfaces, (proxy1, method, args) -> {
+            System.out.println(method.getName());
+            if(!"consume".equals(method.getName())){
+                return method.invoke(target,args);
+            }
             Message message = (Message) args[0];
             Channel channel = (Channel) args[1];
 
@@ -48,9 +52,12 @@ public class BaseConsumerProxy {
             try {
                 // 真正消费的业务逻辑
                 Object result = method.invoke(target, args);
+                System.out.println("进行rabbitmq的ack操作之前");
                 msgLogService.updateStatus(correlationId, Constant.MsgLogStatus.CONSUMED_SUCCESS);
                 // 代表消费者确认收到当前消息，第二个参数表示一次是否 ack 多条消息
+                System.out.println("tsg:"+tag);
                 channel.basicAck(tag, false);
+                System.out.println("进行rabbitmq的ack操作");
                 return result;
             } catch (Exception e) {
                 log.error("getProxy error", e);

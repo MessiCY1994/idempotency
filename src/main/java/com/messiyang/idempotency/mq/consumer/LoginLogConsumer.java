@@ -10,6 +10,8 @@ import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 @Slf4j
 public class LoginLogConsumer implements BaseConsumer {
@@ -18,7 +20,7 @@ public class LoginLogConsumer implements BaseConsumer {
     private LoginLogService loginLogService;
 
     @Override
-    public void consume(Message message, Channel channel) {
+    public void consume(Message message, Channel channel) throws IOException {
         log.info("收到消息: {}", message.toString());
         LoginLog loginLog = MessageHelper.msgToObj(message, LoginLog.class);
         loginLogService.insert(loginLog);

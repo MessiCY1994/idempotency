@@ -13,13 +13,13 @@ public interface UserMapper {
 
     List<User> selectAll();
 
-    User selectOne(Integer id);
+    User selectOne(Long id);
 
     void insert(User user);
 
     void update(User user);
 
-    void delete(Integer id);
+    void delete(Long id);
 
     User selectByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 }

@@ -6,6 +6,7 @@ import com.messiyang.idempotency.common.Constant;
 import com.messiyang.idempotency.common.ResponseCode;
 import com.messiyang.idempotency.common.ServerResponse;
 import com.messiyang.idempotency.config.RabbitConfig;
+import com.messiyang.idempotency.mapper.LoginLogMapper;
 import com.messiyang.idempotency.mapper.MsgLogMapper;
 import com.messiyang.idempotency.mapper.UserMapper;
 import com.messiyang.idempotency.mq.MessageHelper;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -40,6 +42,9 @@ public class UserServiceImpl implements UserService {
     private MsgLogMapper msgLogMapper;
 
     @Autowired
+    private LoginLogMapper loginLogMapper;
+
+    @Autowired
     private JedisUtil jedisUtil;
 
     @Override
@@ -48,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getOne(Integer id) {
+    public User getOne(Long id) {
         return userMapper.selectOne(id);
     }
 
@@ -63,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         userMapper.delete(id);
     }
 
@@ -96,6 +101,7 @@ public class UserServiceImpl implements UserService {
         String msgId = RandomUtil.UUID32();
 
         LoginLog loginLog = new LoginLog();
+        loginLog.setId(Long.valueOf(RandomUtil.generateDigitalStr(16)));
         loginLog.setUserId(user.getId());
         loginLog.setType(Constant.LogType.LOGIN);
         Date date = new Date();
@@ -107,7 +113,9 @@ public class UserServiceImpl implements UserService {
         CorrelationData correlationData = new CorrelationData(msgId);
         rabbitTemplate.convertAndSend(RabbitConfig.LOGIN_LOG_EXCHANGE_NAME, RabbitConfig.LOGIN_LOG_ROUTING_KEY_NAME, MessageHelper.objToMsg(loginLog), correlationData);
 
+
         MsgLog msgLog = new MsgLog(msgId, loginLog, RabbitConfig.LOGIN_LOG_EXCHANGE_NAME, RabbitConfig.LOGIN_LOG_ROUTING_KEY_NAME);
         msgLogMapper.insert(msgLog);
+
     }
 }

@@ -11,11 +11,11 @@ public class LoginLog implements Serializable {
     private static final long serialVersionUID = 9035584359424322830L;
 
     /** ID **/
-    private Integer id;
+    private Long id;
     /**
      * userId
      */
-    private Integer userId;
+    private Long userId;
     /**
      * 日志类型:1登录 2登出
      */
